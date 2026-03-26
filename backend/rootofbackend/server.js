@@ -4,21 +4,18 @@ const app = express();
 // middleware
 app.use(express.json());
 
-// routes
+// routes (ONLY ONE TIME)
 const authRoutes = require('../routes/authRoutes');
-app.use('/auth', authRoutes);
-const authRoutes = require('./routes/authRoutes');
-
 app.use('/auth', authRoutes);
 
 // test route
 app.get('/', (req, res) => {
-  res.send('Server is running 🚀');
+    res.send('Server is running 🚀');
 });
 
 // port
 const PORT = 3000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
