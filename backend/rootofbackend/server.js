@@ -1,21 +1,23 @@
+require('dotenv').config({ path: '../.env' }); // load .env from project root
 const express = require('express');
 const app = express();
 
-// middleware
 app.use(express.json());
 
-// routes (ONLY ONE TIME)
-const authRoutes = require('../routes/authRoutes');
-app.use('/auth', authRoutes);
+// ── Routes ──────────────────────────────────────────────
+const authRoutes        = require('../routes/authRoutes');
+const userRoutes        = require('../routes/userRoutes');
+const studentRoutes     = require('../routes/studentRoutes');
+const applicationRoutes = require('../routes/applicationRoutes');
 
-// test route
-app.get('/', (req, res) => {
-    res.send('Server is running 🚀');
-});
+app.use('/auth',    authRoutes);
+app.use('/user',    userRoutes);
+app.use('/student', studentRoutes);
+app.use('/student', applicationRoutes); // /student/apply  /student/applications
 
-// port
-const PORT = 3000;
+// ── Health check ─────────────────────────────────────────
+app.get('/', (req, res) => res.send('Recruitix server is running 🚀'));
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// ── Start ────────────────────────────────────────────────
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
