@@ -2,8 +2,9 @@
   "name": "recruitix",
   "version": "1.0.0",
   "description": "Campus Placement Ecosystem is a role-based software platform that streamlines campus recruitment by connecting students, recruiters, and the placement cell through intelligent workflows. It enables dynamic eligibility checks, smart shortlisting, and real-time analytics to support transparent and efficient placement decisions.",
-  "main": "index.js",
+  "main": "backend/server.js",
   "scripts": {
+    "start": "node backend/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +20,7 @@
   "homepage": "https://github.com/shristi-0132/RECRUITIX#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "dotenv": "^16.4.7",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.20.0"
