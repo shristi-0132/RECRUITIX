@@ -1,13 +1,14 @@
-const db = require('../config/db');
+const db          = require('../config/db');
 const csvExporter = require('../utils/csvExporter');
 const pdfExporter = require('../utils/pdfExporter');
 
 exports.exportApplications = async (job_id, format) => {
-  // Fetch applicant data
-  const [rows] = await db.query(
-    `SELECT a.application_id, a.student_id, a.status, s.cgpa, s.skills
-     FROM application a
-     JOIN student s ON a.student_id = s.student_id
+  // FIX: tables were 'application' and 'student' — correct names are 'applications' and 'students'
+  const [rows] = await db.execute(
+    `SELECT a.application_id, a.student_id, a.status,
+            s.name, s.cgpa, s.skills
+     FROM applications a
+     JOIN students s ON a.student_id = s.student_id
      WHERE a.job_id = ?`,
     [job_id]
   );

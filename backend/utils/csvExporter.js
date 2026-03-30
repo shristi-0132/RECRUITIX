@@ -5,16 +5,14 @@ exports.generateCSV = (data) => {
     const fields = [
       'application_id',
       'student_id',
+      'name',
       'status',
       'cgpa',
       'skills'
     ];
-
     const parser = new Parser({ fields });
-    const csv = parser.parse(data);
-
-    return csv;
+    return parser.parse(data);
   } catch (error) {
-    throw new Error('CSV generation failed');
+    throw new Error('CSV generation failed: ' + error.message);
   }
 };
