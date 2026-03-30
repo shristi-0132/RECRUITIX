@@ -5,10 +5,10 @@ const app = express();
 app.use(express.json());
 
 // ── Routes ──────────────────────────────────────────────
-const authRoutes        = require('../routes/authRoutes');
-const userRoutes        = require('../routes/userRoutes');
-const studentRoutes     = require('../routes/studentRoutes');
-const applicationRoutes = require('../routes/applicationRoutes');
+const authRoutes        = require('./routes/authRoutes');
+const userRoutes        = require('./routes/userRoutes');
+const studentRoutes     = require('./routes/studentRoutes');
+const applicationRoutes = require('./routes/applicationRoutes');
 
 app.use('/auth',    authRoutes);
 app.use('/user',    userRoutes);
