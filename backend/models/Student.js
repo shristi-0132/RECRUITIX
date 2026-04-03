@@ -1,46 +1,48 @@
+// BUG FIXED: db is a promise pool (mysql2/promise) — callbacks don't work with it.
+// Converted all methods to async/await.
 const db = require('../config/db');
 
 const Student = {
-  // Get student by user_id
-  findByUserId: (user_id, callback) => {
-    const sql = `SELECT * FROM students WHERE user_id = ?`;
-    db.query(sql, [user_id], callback);
+  findByUserId: async (user_id) => {
+    const [rows] = await db.execute(
+      'SELECT * FROM students WHERE user_id = ?',
+      [user_id]
+    );
+    return rows;
   },
 
-  // Create student profile
-  create: (data, callback) => {
-    const sql = `
-      INSERT INTO students (user_id, enrollment_no, name, cgpa, skills, resume_url, degree_url)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `;
-    const values = [
-      data.user_id,
-      data.enrollment_no,
-      data.name,
-      data.cgpa,
-      data.skills,
-      data.resume_url || null,
-      data.degree_url || null,
-    ];
-    db.query(sql, values, callback);
+  create: async (data) => {
+    const [result] = await db.execute(
+      `INSERT INTO students (user_id, enrollment_no, name, cgpa, skills, resume_url, degree_url)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [
+        data.user_id,
+        data.enrollment_no,
+        data.name,
+        data.cgpa,
+        data.skills || null,
+        data.resume_url || null,
+        data.degree_url || null,
+      ]
+    );
+    return result;
   },
 
-  // Update student profile
-  update: (user_id, data, callback) => {
-    const sql = `
-      UPDATE students
-      SET name = ?, cgpa = ?, skills = ?, resume_url = ?, degree_url = ?
-      WHERE user_id = ?
-    `;
-    const values = [
-      data.name,
-      data.cgpa,
-      data.skills,
-      data.resume_url || null,
-      data.degree_url || null,
-      user_id,
-    ];
-    db.query(sql, values, callback);
+  update: async (user_id, data) => {
+    const [result] = await db.execute(
+      `UPDATE students
+       SET name = ?, cgpa = ?, skills = ?, resume_url = ?, degree_url = ?
+       WHERE user_id = ?`,
+      [
+        data.name,
+        data.cgpa,
+        data.skills || null,
+        data.resume_url || null,
+        data.degree_url || null,
+        user_id,
+      ]
+    );
+    return result;
   },
 };
 
