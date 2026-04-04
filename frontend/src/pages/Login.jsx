@@ -1,74 +1,78 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../services/api";
+import { saveToken, saveRole } from "../utils/authUtils";
+import "./../App.css";
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const Login = () => {
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    localStorage.setItem("token", "dummy-jwt-token");
-    localStorage.setItem("role", "student");
-alert("Login successful");
+
+    try {
+      const response = await api.post("/login", formData);
+
+      const token = response.data.token;
+      const role = response.data.role;
+
+      saveToken(token);
+      saveRole(role);
+
+      alert("Login successful");
+
+      if (role === "student") {
+        navigate("/student-dashboard");
+      } else if (role === "recruiter") {
+        navigate("/recruiter-dashboard");
+      } else {
+        navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Login failed");
+    }
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: "#0b1020",
-      }}
-    >
-      <form
-        onSubmit={handleLogin}
-        style={{
-          width: "350px",
-          background: "#fff",
-          padding: "30px",
-          borderRadius: "12px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "15px",
-          boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
-        }}
-      >
-        <h2 style={{ margin: 0 }}>Login</h2>
+    <div className="auth-container">
+      <form className="auth-box" onSubmit={handleLogin}>
+        <h2>Login</h2>
 
         <input
           type="email"
+          name="email"
           placeholder="Enter email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={{ padding: "12px" }}
+          value={formData.email}
+          onChange={handleChange}
+          required
         />
 
         <input
           type="password"
+          name="password"
           placeholder="Enter password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={{ padding: "12px" }}
+          value={formData.password}
+          onChange={handleChange}
+          required
         />
 
-        <button
-          type="submit"
-          style={{
-            padding: "12px",
-            background: "#4f46e5",
-            color: "white",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
-          }}
-        >
-          Login
-        </button>
-        <p style={{ textAlign: "center", marginTop: "10px" }}>
-  Don’t have an account? <a href="#">Signup</a>
-</p>
+        <button type="submit">Login</button>
       </form>
     </div>
   );
-}
+};
+
+export default Login;
