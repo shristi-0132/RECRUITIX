@@ -1,0 +1,32 @@
+/* ── Recruitix Design Tokens ───────────────────────────── */
+:root {
+  --color-primary:     #1B3C53;
+  --color-primary-mid: #234C6A;
+  --color-primary-light: #456882;
+  --color-accent:      #D2C1B6;
+  --color-accent-dark: #b8a99c;
+
+  --color-white:       #ffffff;
+  --color-bg:          #f4f0ed;
+  --color-text:        #1B3C53;
+  --color-text-muted:  #456882;
+  --color-border:      #D2C1B6;
+
+  --color-success:     #2d7a4f;
+  --color-warning:     #b45309;
+  --color-error:       #b91c1c;
+  --color-info:        #234C6A;
+
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+
+  --shadow-sm: 0 1px 3px rgba(27,60,83,0.08);
+  --shadow-md: 0 4px 12px rgba(27,60,83,0.12);
+  --shadow-lg: 0 8px 24px rgba(27,60,83,0.16);
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+
+  --transition: 0.2s ease;
+}
