@@ -1,18 +1,38 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const { verifyToken } = require('../middleware/authMiddleware');
-const { allowRoles } = require('../middleware/roleMiddleware');
+const {
+  verifyToken,
+} = require("../middleware/authMiddleware");
 
-const { applyToJob, getMyApplications } = require('../controllers/applicationController');
+const {
+  allowRoles,
+} = require("../middleware/roleMiddleware");
 
-// All routes require a valid JWT and student role
+const {
+  applyToJob,
+  getMyApplications,
+  getShortlistedJobs,
+} = require("../controllers/applicationController");
+
 router.use(verifyToken);
-router.use(allowRoles('student'));
+router.use(
+  allowRoles("student")
+);
 
-// POST  /student/apply          → apply to a job  (body: { job_id })
-// GET   /student/applications   → view all my applications
-router.post('/apply', applyToJob);
-router.get('/applications', getMyApplications);
+router.post(
+  "/apply",
+  applyToJob
+);
+
+router.get(
+  "/applications",
+  getMyApplications
+);
+
+router.get(
+  "/shortlisted",
+  getShortlistedJobs
+);
 
 module.exports = router;

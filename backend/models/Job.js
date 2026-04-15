@@ -1,44 +1,76 @@
-// BUG FIXED 1: Table was queried as 'job' — actual table name is 'jobs'.
-// BUG FIXED 2: Column was 'required_skills' — actual column name is 'skills'.
-// BUG FIXED 3: Removed updated_at — that column doesn't exist in schema.
-// BUG FIXED 4: Added expected_package field that was missing from create().
-const db = require('../config/db');
+const db = require("../config/db");
 
 const Job = {
-  create: async (company_id, title, description, skills, expected_package, min_cgpa) => {
+  create: async (
+    recruiter_id,
+    title,
+    description,
+    skills,
+    expected_package,
+    min_cgpa
+  ) => {
     const [result] = await db.execute(
-      `INSERT INTO jobs (company_id, title, description, skills, expected_package, min_cgpa)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [company_id, title, description || null, skills || null, expected_package, min_cgpa]
+      `
+      INSERT INTO jobs
+      (
+        recruiter_id,
+        title,
+        company,
+        location,
+        description,
+        skills,
+        expected_package,
+        min_cgpa
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      `,
+      [
+        recruiter_id,
+        title,
+        "TechNova Pvt Ltd",
+        "Noida",
+        description || null,
+        skills || null,
+        expected_package || 0,
+        min_cgpa || 0,
+      ]
     );
+
     return result;
   },
 
   getAll: async () => {
     const [rows] = await db.execute(
-      `SELECT j.*, c.company_name
-       FROM jobs j
-       JOIN companies c ON j.company_id = c.company_id
-       WHERE j.status = 'active'
-       ORDER BY j.created_at DESC`
+      `
+      SELECT *
+      FROM jobs
+      ORDER BY id DESC
+      `
     );
     return rows;
   },
 
-  getByCompanyId: async (company_id) => {
+  getByCompanyId: async (
+    recruiter_id
+  ) => {
     const [rows] = await db.execute(
-      'SELECT * FROM jobs WHERE company_id = ?',
-      [company_id]
+      `
+      SELECT *
+      FROM jobs
+      WHERE recruiter_id = ?
+      `,
+      [recruiter_id]
     );
     return rows;
   },
 
   getById: async (job_id) => {
     const [rows] = await db.execute(
-      `SELECT j.*, c.company_name
-       FROM jobs j
-       JOIN companies c ON j.company_id = c.company_id
-       WHERE j.job_id = ?`,
+      `
+      SELECT *
+      FROM jobs
+      WHERE id = ?
+      `,
       [job_id]
     );
     return rows[0];
@@ -46,7 +78,11 @@ const Job = {
 
   close: async (job_id) => {
     const [result] = await db.execute(
-      `UPDATE jobs SET status = 'closed' WHERE job_id = ?`,
+      `
+      UPDATE jobs
+      SET status = 'closed'
+      WHERE id = ?
+      `,
       [job_id]
     );
     return result;

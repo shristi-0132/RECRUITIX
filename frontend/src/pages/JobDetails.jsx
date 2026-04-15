@@ -5,7 +5,7 @@ import { applyJob } from '../services/studentApi';
 import StatusBadge from '../components/StatusBadge';
 import Spinner from '../components/Spinner';
 import Button from '../components/Button';
-import { pageWrap, heading } from '../styles/theme';
+import { pageWrap, heading } from '../style/theme';
 
 export default function JobDetails() {
   const { job_id }  = useParams();

@@ -1,17 +1,70 @@
-const express    = require('express');
-const router     = express.Router();
+const express = require("express");
+const router = express.Router();
 
-// FIX: was importing default exports — both middleware files export named functions
-const { verifyToken } = require('../middleware/authMiddleware');
-const { allowRoles }  = require('../middleware/roleMiddleware');
-const jobController = require('../controllers/jobController');
+const {
+  verifyToken,
+} = require("../middleware/authMiddleware");
 
-router.use(verifyToken);
-router.use(allowRoles('recruiter'));
+const {
+  allowRoles,
+} = require("../middleware/roleMiddleware");
 
-router.post('/job/create',              jobController.createJob);
-router.get('/job/applicants/:job_id',   jobController.getApplicants);
-router.post('/job/rank/:job_id',        jobController.rankApplicants);
-router.post('/shortlist/:application_id', jobController.shortlistCandidate);
+const jobController =
+  require("../controllers/jobController");
+
+/* =========================
+   STUDENT + RECRUITER
+========================= */
+
+// Get all jobs (students need this)
+router.get(
+  "/job/all",
+  verifyToken,
+  jobController.getAllJobs
+);
+
+/* =========================
+   RECRUITER ONLY
+========================= */
+
+// Create job
+router.post(
+  "/job/create",
+  verifyToken,
+  allowRoles("recruiter"),
+  jobController.createJob
+);
+
+// Get recruiter's own jobs
+router.get(
+  "/job/list",
+  verifyToken,
+  allowRoles("recruiter"),
+  jobController.getRecruiterJobs
+);
+
+// Get applicants
+router.get(
+  "/job/applicants/:job_id",
+  verifyToken,
+  allowRoles("recruiter"),
+  jobController.getApplicants
+);
+
+// Rank applicants
+router.post(
+  "/job/rank/:job_id",
+  verifyToken,
+  allowRoles("recruiter"),
+  jobController.rankApplicants
+);
+
+// Shortlist candidate
+router.post(
+  "/shortlist/:application_id",
+  verifyToken,
+  allowRoles("recruiter"),
+  jobController.shortlistCandidate
+);
 
 module.exports = router;

@@ -1,8 +1,24 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { postJob } from '../services/recruiterApi';
-import Spinner from '../components/Spinner';
-import { pageWrap, heading, inputStyle, labelStyle, btnPrimary, btnSecondary } from '../styles/theme';
+import React, {
+  useState,
+} from "react";
+import {
+  useNavigate,
+} from "react-router-dom";
+
+import {
+  postJob,
+} from "../../services/recruiterApi";
+
+import Spinner from "../../components/Spinner";
+
+import {
+  pageWrap,
+  heading,
+  inputStyle,
+  labelStyle,
+  btnPrimary,
+  btnSecondary,
+} from "../../style/theme";
 
 export default function PostJob() {
   const navigate = useNavigate();

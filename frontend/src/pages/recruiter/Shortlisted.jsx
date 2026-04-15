@@ -1,10 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import Table from '../components/Table';
-import StatusBadge from '../components/StatusBadge';
-import Spinner from '../components/Spinner';
-import { getShortlisted, selectApplicant, rejectApplicant } from '../services/recruiterApi';
-import { pageWrap, heading } from '../styles/theme';
+import React, {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  useParams,
+  useNavigate,
+} from "react-router-dom";
+
+import Table from "../../components/Table";
+import StatusBadge from "../../components/StatusBadge";
+import Spinner from "../../components/Spinner";
+
+import {
+  getShortlisted,
+  selectApplicant,
+  rejectApplicant,
+} from "../../services/recruiterApi";
 
 export default function Shortlisted() {
   const { job_id } = useParams();

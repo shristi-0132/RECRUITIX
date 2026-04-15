@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ApplicationTable from '../components/ApplicationTable';
 import { getApplications } from '../services/studentApi';
-import { pageWrap, heading } from '../styles/theme';
+import { pageWrap, heading } from '../style/theme';
 
 export default function MyApplications() {
   const navigate = useNavigate();

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { pageWrap, heading } from '../styles/theme';
-import { getRecruiterJobs } from '../services/recruiterApi';
-import Spinner from '../components/Spinner';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { pageWrap, heading } from "../../style/theme";
+import { getRecruiterJobs } from "../../services/recruiterApi";
+import Spinner from "../../components/Spinner";
 
 export default function RecruiterDashboard() {
   const navigate = useNavigate();
@@ -120,7 +120,7 @@ export default function RecruiterDashboard() {
                       <td style={{ padding: '16px' }}>{job.applicant_count ?? 0}</td>
                       <td style={{ padding: '16px' }}>
                         <button
-                          onClick={() => navigate(`/recruiter/applications/${job.job_id}`)}
+                          onClick={() => navigate(`/recruiter/applications/${job.id}`)}
                           style={{
                             background: 'none', border: '1px solid #D2C1B6',
                             borderRadius: '6px', padding: '6px 14px',

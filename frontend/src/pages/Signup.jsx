@@ -16,7 +16,8 @@ const Signup = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]:
+        e.target.value,
     });
   };
 
@@ -24,19 +25,38 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      await api.post("/signup", formData);
+      const response =
+        await api.post(
+          "/auth/signup",
+          formData
+        );
 
-      alert("Signup successful");
-      navigate("/login");
+      console.log(
+        "Signup Response:",
+        response.data
+      );
+
+      alert(
+        "Signup successful! Please login."
+      );
+
+      // go back to auth page
+      navigate("/auth");
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Signup Error:",
+        error
+      );
       alert("Signup failed");
     }
   };
 
   return (
     <div className="auth-container">
-      <form className="auth-box" onSubmit={handleSignup}>
+      <form
+        className="auth-box"
+        onSubmit={handleSignup}
+      >
         <h2>Signup</h2>
 
         <input
@@ -71,11 +91,17 @@ const Signup = () => {
           value={formData.role}
           onChange={handleChange}
         >
-          <option value="student">Student</option>
-          <option value="recruiter">Recruiter</option>
+          <option value="student">
+            Student
+          </option>
+          <option value="recruiter">
+            Recruiter
+          </option>
         </select>
 
-        <button type="submit">Signup</button>
+        <button type="submit">
+          Signup
+        </button>
       </form>
     </div>
   );
